@@ -52,15 +52,17 @@ static const char * version_str = "1.27 20190113";      /* spc5r20 */
 
 
 static struct option long_options[] = {
-       	{"ufs_err", required_argument, 0, 'U'},
-        {0, 0, 0, 0},   /* sentinel */
+	{"length", required_argument, 0, 'l'},
+	{"ufs_err", no_argument, 0, 'U'},
+	{0, 0, 0, 0},   /* sentinel */
 };
 
+int eh_buf_size = 0;
 
 static void
 usage()
 {
-    pr2serr("Usage: sg_read_buffer_ufs_hist DEVICE\n");
+    pr2serr("Usage: sg_read_buffer_ufs_hist -l ${buf length} $DEVICE\n");
 }
 
 
@@ -303,7 +305,10 @@ static int do_ufs_error_history(int sg_fd)
 	uint8_t * err_data_buf = NULL;
 	char err_dir_filename[256] = {0,};
 
-	len = EH_BUFFER_LEN;
+	len = eh_buf_size;
+	if (len == 0)
+		len = EH_BUFFER_LEN;
+
     dir_header_buf = (uint8_t *)malloc(len);
     if (NULL == dir_header_buf) {
         pr2serr("unable to allocate %d bytes on the heap\n", len);
@@ -312,7 +317,7 @@ static int do_ufs_error_history(int sg_fd)
     memset(dir_header_buf, 0, len);
 
 	pr2serr("Reading header for error history\n");
-	err = do_read_buffer(sg_fd, EH_BUFFER_MODE, 0, 0, 0, dir_header_buf, EH_BUFFER_LEN, 0, false, 0);
+	err = do_read_buffer(sg_fd, EH_BUFFER_MODE, 0, 0, 0, dir_header_buf, len, 0, false, 0);
 
 	if (err) {
 		pr2serr("Read history directory failed\n");
@@ -404,7 +409,6 @@ out_free:
 	return err;
 }
 
-
 int
 main(int argc, char * argv[])
 {
@@ -422,15 +426,17 @@ main(int argc, char * argv[])
     while (1) {
         int option_index = 0;
 
-        c = getopt_long(argc, argv, "U", long_options,
+        c = getopt_long(argc, argv, "l:U", long_options,
                         &option_index);
         if (c == -1)
             break;
 
         switch (c) {
-
 		case 'U':
 			do_ufs_err = true;
+			break;
+		case 'l':
+			eh_buf_size = sg_get_num(optarg);
 			break;
         default:
             pr2serr("unrecognised option code 0x%x ??\n", c);
