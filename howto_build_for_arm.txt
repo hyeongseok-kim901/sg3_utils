@@ -1,0 +1,4 @@
+mkdir build
+cd build
+../configure --target=ARM64 --host=aarch64-linux-gnu --disable-shared CFLAGS=-static
+make LDFLAGS="-all-static"
