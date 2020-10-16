@@ -96,6 +96,7 @@ bin_PROGRAMS = sg_bg_ctl$(EXEEXT) sg_compare_and_write$(EXEEXT) \
 	sg_opcodes$(EXEEXT) sg_persist$(EXEEXT) sg_prevent$(EXEEXT) \
 	sg_raw$(EXEEXT) sg_rdac$(EXEEXT) sg_read_attr$(EXEEXT) \
 	sg_read_block_limits$(EXEEXT) sg_read_buffer$(EXEEXT) \
+	sg_read_buffer_ufs_hist$(EXEEXT) \
 	sg_read_long$(EXEEXT) sg_readcap$(EXEEXT) sg_reassign$(EXEEXT) \
 	sg_referrals$(EXEEXT) sg_rep_zones$(EXEEXT) \
 	sg_requests$(EXEEXT) sg_reset_wp$(EXEEXT) sg_rmsn$(EXEEXT) \
@@ -225,6 +226,9 @@ sg_read_block_limits_DEPENDENCIES = ../lib/libsgutils2.la
 sg_read_buffer_SOURCES = sg_read_buffer.c
 sg_read_buffer_OBJECTS = sg_read_buffer.$(OBJEXT)
 sg_read_buffer_DEPENDENCIES = ../lib/libsgutils2.la
+sg_read_buffer_ufs_hist_SOURCES = sg_read_buffer_ufs_hist.c
+sg_read_buffer_ufs_hist_OBJECTS = sg_read_buffer_ufs_hist.$(OBJEXT)
+sg_read_buffer_ufs_hist_DEPENDENCIES = ../lib/libsgutils2.la
 sg_read_long_SOURCES = sg_read_long.c
 sg_read_long_OBJECTS = sg_read_long.$(OBJEXT)
 sg_read_long_DEPENDENCIES = ../lib/libsgutils2.la
@@ -388,6 +392,7 @@ am__depfiles_remade = ./$(DEPDIR)/sg_bg_ctl.Po \
 	./$(DEPDIR)/sg_read_attr.Po \
 	./$(DEPDIR)/sg_read_block_limits.Po \
 	./$(DEPDIR)/sg_read_buffer.Po ./$(DEPDIR)/sg_read_long.Po \
+	./$(DEPDIR)/sg_read_buffer_ufs_hist.Po \
 	./$(DEPDIR)/sg_readcap.Po ./$(DEPDIR)/sg_reassign.Po \
 	./$(DEPDIR)/sg_referrals.Po ./$(DEPDIR)/sg_rep_zones.Po \
 	./$(DEPDIR)/sg_requests.Po ./$(DEPDIR)/sg_reset.Po \
@@ -437,6 +442,7 @@ SOURCES = sg_bg_ctl.c sg_compare_and_write.c sg_copy_results.c sg_dd.c \
 	sg_map26.c sg_modes.c sg_opcodes.c sg_persist.c sg_prevent.c \
 	sg_raw.c sg_rbuf.c sg_rdac.c sg_read.c sg_read_attr.c \
 	sg_read_block_limits.c sg_read_buffer.c sg_read_long.c \
+	sg_read_buffer_ufs_hist.c \
 	sg_readcap.c sg_reassign.c sg_referrals.c sg_rep_zones.c \
 	sg_requests.c sg_reset.c sg_reset_wp.c sg_rmsn.c sg_rtpg.c \
 	sg_safte.c sg_sanitize.c sg_sat_identify.c sg_sat_phy_event.c \
@@ -454,6 +460,7 @@ DIST_SOURCES = sg_bg_ctl.c sg_compare_and_write.c sg_copy_results.c \
 	sg_map26.c sg_modes.c sg_opcodes.c sg_persist.c sg_prevent.c \
 	sg_raw.c sg_rbuf.c sg_rdac.c sg_read.c sg_read_attr.c \
 	sg_read_block_limits.c sg_read_buffer.c sg_read_long.c \
+	sg_read_buffer_ufs_hist.c \
 	sg_readcap.c sg_reassign.c sg_referrals.c sg_rep_zones.c \
 	sg_requests.c sg_reset.c sg_reset_wp.c sg_rmsn.c sg_rtpg.c \
 	sg_safte.c sg_sanitize.c sg_sat_identify.c sg_sat_phy_event.c \
@@ -661,6 +668,7 @@ sg_read_attr_LDADD = ../lib/libsgutils2.la
 sg_readcap_LDADD = ../lib/libsgutils2.la
 sg_read_block_limits_LDADD = ../lib/libsgutils2.la
 sg_read_buffer_LDADD = ../lib/libsgutils2.la
+sg_read_buffer_ufs_hist_LDADD = ../lib/libsgutils2.la
 sg_read_long_LDADD = ../lib/libsgutils2.la
 sg_reassign_LDADD = ../lib/libsgutils2.la
 sg_requests_LDADD = ../lib/libsgutils2.la
@@ -892,6 +900,10 @@ sg_read_buffer$(EXEEXT): $(sg_read_buffer_OBJECTS) $(sg_read_buffer_DEPENDENCIES
 	@rm -f sg_read_buffer$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(sg_read_buffer_OBJECTS) $(sg_read_buffer_LDADD) $(LIBS)
 
+sg_read_buffer_ufs_hist$(EXEEXT): $(sg_read_buffer_ufs_hist_OBJECTS) $(sg_read_buffer_ufs_hist_DEPENDENCIES) $(EXTRA_sg_read_buffer_ufs_hist_DEPENDENCIES) 
+	@rm -f sg_read_buffer_ufs_hist$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(sg_read_buffer_ufs_hist_OBJECTS) $(sg_read_buffer_ufs_hist_LDADD) $(LIBS)
+
 sg_read_long$(EXEEXT): $(sg_read_long_OBJECTS) $(sg_read_long_DEPENDENCIES) $(EXTRA_sg_read_long_DEPENDENCIES) 
 	@rm -f sg_read_long$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(sg_read_long_OBJECTS) $(sg_read_long_LDADD) $(LIBS)
@@ -1094,6 +1106,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sg_read_attr.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sg_read_block_limits.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sg_read_buffer.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sg_read_buffer_ufs_hist.Po@am__quote@ # am--inlcude-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sg_read_long.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sg_readcap.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sg_reassign.Po@am__quote@ # am--include-marker
@@ -1444,6 +1457,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/sg_read_attr.Po
 	-rm -f ./$(DEPDIR)/sg_read_block_limits.Po
 	-rm -f ./$(DEPDIR)/sg_read_buffer.Po
+	-rm -f ./$(DEPDIR)/sg_read_buffer_ufs_hist.Po
 	-rm -f ./$(DEPDIR)/sg_read_long.Po
 	-rm -f ./$(DEPDIR)/sg_readcap.Po
 	-rm -f ./$(DEPDIR)/sg_reassign.Po

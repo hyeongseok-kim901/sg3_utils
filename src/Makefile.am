@@ -11,6 +11,9 @@ bin_PROGRAMS = \
 	sg_start sg_stpg sg_stream_ctl sg_sync sg_timestamp sg_turs sg_unmap \
 	sg_verify sg_vpd sg_wr_mode sg_write_buffer sg_write_long \
 	sg_write_same sg_write_verify sg_write_x sg_zone
+
+bin_PROGRAMS += sg_read_buffer_ufs_hist
+
 sg_scan_SOURCES =
 
 
@@ -120,6 +123,8 @@ sg_readcap_LDADD = ../lib/libsgutils2.la
 sg_read_block_limits_LDADD = ../lib/libsgutils2.la
 
 sg_read_buffer_LDADD = ../lib/libsgutils2.la
+
+sg_read_buffer_ufs_hist_LDADD = ../lib/libsgutils2.la
 
 sg_read_long_LDADD = ../lib/libsgutils2.la
 
